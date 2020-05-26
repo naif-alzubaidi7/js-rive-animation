@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>2Dimensions - Flare Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <script src="../build/Flare.min.js"></script>
+    <script src="../build/gl-matrix.js"></script>
+    <script src="../build/canvaskit.js"></script>
+
+    <!-- example implementation is in here -->
+    <script src="./example.js" compile></script>
+
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+form {
+  padding: 1em;
+  background: #f9f9f9;
+  border: 1px solid #c1c1c1;
+  margin-top: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+  z-index: 10000;
+
+  position: absolute;
+    top: 50%;
+    left: 25%;
+}
+form input {
+  margin-bottom: 1rem;
+  background: #fff;
+  border: 1px solid #9c9c9c;
+}
+form button {
+  background: lightgrey;
+  padding: 0.7em;
+  border: 0;
+}
+form button:hover {
+  background: gold;
+}
+
+label {
+  text-align: right;
+  display: block;
+  padding: 0.5em 1.5em 0.5em 0;
+}
+
+input {
+  width: 100%;
+  padding: 0.7em;
+  margin-bottom: 0.5rem;
+}
+input:focus {
+  outline: 3px solid gold;
+}
+
+@media (min-width: 400px) {
+  form {
+    overflow: hidden;
+  }
+
+  label {
+    float: left;
+    width: 200px;
+  }
+
+  input {
+    float: left;
+    width: calc(100% - 200px);
+  }
+
+  button {
+    float: right;
+    width: calc(100% - 200px);
+  }
+}
+ 
+ 
+ 
+
+
+    </style>
+
+    <script>
+        let flareExample;
+        function onLoad(anim) {
+            flareExample = new FlareExample(document.getElementById("canvas"), function (anim) {
+                flareExample.load("./Teddy.flr", function (error) {
+                    if (error) {
+                        console.log("failed to load actor file...", error);
+                    }
+                });
+
+                flareExample.setSize(100, 100);
+                document.body.addEventListener('dragover', function (evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    evt.dataTransfer.dropEffect = "copy";
+                }, true);
+
+                document.body.addEventListener('dragleave', function (evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                });
+
+                document.body.addEventListener("drop", function (evt) {
+                    // Reload another actor by dragging and dropping the file in.
+                    evt.stopPropagation();
+                    evt.preventDefault();
+
+                    const files = evt.dataTransfer.files;
+
+                    flareExample.load(files[0], function (error) {
+                        if (error) {
+                            console.log("oh no", error);
+                        }
+                    });
+                }, true);
+            });
+        }
+
+      function change_animation ( ) {
+
+        var UsertName = document.getElementById("UsertName").value;
+
+        var Password = document.getElementById("Password").value;
+
+        if(UsertName == '' && Password == ''){
+return;
+  
+}
+
+console.log(UsertName == '123' );
+
+console.log(Password == '123');
+
+
+if(UsertName == '123' && Password == '123'){
+
+  flareExample.setAnimation2( 2)
+
+}
+
+else {
+  flareExample.setAnimation2( 0)
+
+
+}
+        //     console.log('flareExample._AnimationInstance'+UsertName + Password);
+
+        //  flareExample.setAnimation2( 3)
+
+         
+            
+        }
+
+    </script>
+
+
+  
+</head>
+
+<body onload="onLoad(3)">
+    <canvas id="canvas" height="2000" width="2000" style="position:absolute;margin:0;padding:0; z-index: -1;"></canvas>
+ 
+
+  <form class="form1" onsubmit="change_animation() ;return false">
+    <label for="UsertName" class="first-name">User Name</label>
+    <input id="UsertName" type="text">
+
+    <label for="Password" class="last-name">Password</label>
+    <input id="Password" type="text">
+ 
+
+    <button>Submit</button>
+</form>
+
+</body>
+
+</html>
